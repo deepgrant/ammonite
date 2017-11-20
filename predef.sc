@@ -61,7 +61,12 @@ import ammonite.interp._
 
 ammonite.shell.Configure(interp, repl, wd)
 
-val jars = ls.rec! root/'Users/'gmills/'Development/'cs/'dev_ws |? (_.ext == "jar")
+val csJarPath = scala.sys.env.get("CS_DEVELOPMENT") match {
+  case None => cwd
+  case Some(path) => ammonite.ops.Path(path)
+}
+
+val jars = ls.rec! csJarPath |? (_.ext == "jar")
 jars.map {
   case j => interp.load.cp(j)
 }
