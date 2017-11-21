@@ -67,9 +67,7 @@ val csJarPath = scala.sys.env.get("CS_DEVELOPMENT") match {
 }
 
 val jars = ls.rec! csJarPath |? (_.ext == "jar")
-jars.map {
-  case j => interp.load.cp(j)
-}
+interp.load.cp(jars)
 
 import akka.Done
 import akka.util.{ByteString,Timeout}
